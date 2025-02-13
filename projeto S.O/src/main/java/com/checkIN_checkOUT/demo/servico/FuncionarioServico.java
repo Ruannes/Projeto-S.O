@@ -16,7 +16,7 @@ public class FuncionarioServico {
     }
 
     public Funcionario criarFuncionario(Funcionario funcionario){
-        return FuncionarioRepositorio.save(funcionario);
+        return funcionarioRepositorio.save(funcionario);
     }
 
     public List<Funcionario> buscarFuncionario(){

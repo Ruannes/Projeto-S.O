@@ -15,6 +15,13 @@ public class Chefe {
     @OneToMany
     private List<Funcionario> funcionarios;
 
+    @OneToOne
+    @JoinColumn(name = "configuracao_id")
+    private ConfiguracaoChefe configuracao;
+
+    @OneToMany(mappedBy = "chefe")
+    private List<Registrador> registradores;
+
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
