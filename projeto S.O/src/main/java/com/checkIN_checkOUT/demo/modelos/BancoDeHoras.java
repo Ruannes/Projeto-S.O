@@ -12,7 +12,6 @@ public class BancoDeHoras {
     private Long id;
 
     private BigDecimal valorHora;
-    private String tipoCompensacao;
     private BigDecimal horasAcumuladas;
 
     @OneToOne
@@ -22,10 +21,9 @@ public class BancoDeHoras {
     public BancoDeHoras() {
     }
 
-    public BancoDeHoras(Long id, BigDecimal valorHora, String tipoCompensacao, BigDecimal horasAcumuladas) {
+    public BancoDeHoras(Long id, BigDecimal valorHora, BigDecimal horasAcumuladas) {
         this.id = id;
         this.valorHora = valorHora;
-        this.tipoCompensacao = tipoCompensacao;
         this.horasAcumuladas = horasAcumuladas;
     }
 
@@ -43,14 +41,6 @@ public class BancoDeHoras {
 
     public void setValorHora(BigDecimal valorHora) {
         this.valorHora = valorHora;
-    }
-
-    public String getTipoCompensacao() {
-        return tipoCompensacao;
-    }
-
-    public void setTipoCompensacao(String tipoCompensacao) {
-        this.tipoCompensacao = tipoCompensacao;
     }
 
     public BigDecimal getHorasAcumuladas() {

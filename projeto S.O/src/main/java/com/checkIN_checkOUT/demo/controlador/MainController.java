@@ -23,4 +23,10 @@ public class MainController {
         this.configuracaoServico = configuracaoServico;
         this.registradorServico = registradorServico;
     }
+
+    public static void main(String[] args) {
+        Chefe chefe = new Chefe();
+
+    }
+
 }

@@ -10,7 +10,6 @@ public class RegistroCheckinCheckout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime dataHoraEntrada;
     private LocalDateTime dataHoraSaida;
 
