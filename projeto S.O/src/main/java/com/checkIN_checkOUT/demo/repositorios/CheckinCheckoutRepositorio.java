@@ -1,4 +1,9 @@
 package com.checkIN_checkOUT.demo.repositorios;
 
-public interface CheckinCheckoutRepositorio {
+import com.checkIN_checkOUT.demo.modelos.RegistroCheckinCheckout;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface CheckinCheckoutRepositorio extends JpaRepository<RegistroCheckinCheckout, String> {
 }
