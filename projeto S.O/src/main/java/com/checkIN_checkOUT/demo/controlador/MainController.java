@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.checkIN_checkOUT.demo.modelos.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -44,4 +45,60 @@ public class MainController {
         return funcionarioServico.criarFuncionario(funcionario);
     }
 
+    /**
+     * Realiza check-in de um funcionário
+     */
+    @PostMapping("/checkin/{funcionarioId}")
+    public RegistroCheckinCheckout realizarCheckin(@PathVariable Long funcionarioId) {
+        Funcionario funcionario = funcionarioServico.buscarFuncionario(String.valueOf(funcionarioId))
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+        return checkinCheckoutServico.realizarCheckin(funcionario);
+    }
+
+    /**
+     * Realiza check-out de um funcionário
+     */
+    @PostMapping("/checkout/{funcionarioId}")
+    public RegistroCheckinCheckout realizarCheckout(@PathVariable Long funcionarioId) {
+        Funcionario funcionario = funcionarioServico.buscarFuncionario(String.valueOf(funcionarioId))
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+        return checkinCheckoutServico.realizarCheckout(funcionario);
+    }
+
+    /**
+     * Lista todos os registros de check-in/check-out
+     */
+    @GetMapping("/registros")
+    public List<RegistroCheckinCheckout> listarRegistros() {
+        return checkinCheckoutServico.buscarCheckinCheckout();
+    }
+
+    /**
+     * Busca um registro específico pelo ID
+     */
+    @GetMapping("/registro/{id}")
+    public RegistroCheckinCheckout buscarRegistro(@PathVariable Long id) {
+        return checkinCheckoutServico.buscarCheckinCheckout(id)
+                .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
+    }
+
+    /**
+     * Exclui um registro pelo ID
+     */
+    @DeleteMapping("/registro/{id}")
+    public void excluirRegistro(@PathVariable Long id) {
+        checkinCheckoutServico.excluirCheckinCheckout(id);
+    }
+
+    /**
+     * Cria uma configuração de banco de horas vinculada a um chefe
+     *//*
+    @PostMapping("/configuracao/{chefeId}")
+    public Configuracao criarConfiguracao(@PathVariable Long chefeId, @RequestBody Configuracao configuracao) {
+        Chefe chefe = chefeServico.buscarChefe(chefeId)
+                .orElseThrow(() -> new RuntimeException("Chefe não encontrado"));
+        configuracao.setChefe(chefe);
+        return configuracaoServico.criarConfiguracao(configuracao);
+    }*/
 }
+

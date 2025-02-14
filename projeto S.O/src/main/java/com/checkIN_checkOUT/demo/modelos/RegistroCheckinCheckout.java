@@ -16,5 +16,17 @@ public class RegistroCheckinCheckout {
     @ManyToOne
     @JoinColumn(name = "registrador_id")
     private Registrador registrador;
+
+    public void setFuncionario(Funcionario funcionario) {
+    }
+
+    public void setDataHoraEntrada(LocalDateTime now) {
+    }
+
+    public void setDataHoraSaida(LocalDateTime now) {
+    }
+
+    public boolean dataHoraSaida() {
+    }
 }
 
