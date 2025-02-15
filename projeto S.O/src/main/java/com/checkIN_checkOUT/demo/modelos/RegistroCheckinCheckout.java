@@ -14,6 +14,35 @@ public class RegistroCheckinCheckout {
     private LocalDateTime dataHoraSaida;
 
     @ManyToOne
+    @JoinColumn(name = "funcionario_id", nullable = false)
+    private Funcionario funcionario;
+
+
+    public Registrador getRegistrador() {
+        return registrador;
+    }
+
+    public void setRegistrador(Registrador registrador) {
+        this.registrador = registrador;
+    }
+
+    public LocalDateTime getDataHoraSaida() {
+        return dataHoraSaida;
+    }
+
+    public LocalDateTime getDataHoraEntrada() {
+        return dataHoraEntrada;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @ManyToOne
     @JoinColumn(name = "registrador_id")
     private Registrador registrador;
 
@@ -27,6 +56,7 @@ public class RegistroCheckinCheckout {
     }
 
     public boolean dataHoraSaida() {
+        return false;
     }
 }
 

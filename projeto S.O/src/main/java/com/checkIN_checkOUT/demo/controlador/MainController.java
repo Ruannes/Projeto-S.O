@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.checkIN_checkOUT.demo.modelos.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -92,13 +91,13 @@ public class MainController {
 
     /**
      * Cria uma configuração de banco de horas vinculada a um chefe
-     *//*
+     */
     @PostMapping("/configuracao/{chefeId}")
-    public Configuracao criarConfiguracao(@PathVariable Long chefeId, @RequestBody Configuracao configuracao) {
-        Chefe chefe = chefeServico.buscarChefe(chefeId)
+    public <Configuracao> Configuracao criarConfiguracao(@PathVariable Long chefeId, @RequestBody Configuracao configuracao) {
+        Chefe chefe = chefeServico.buscarChefe(String.valueOf(chefeId))
                 .orElseThrow(() -> new RuntimeException("Chefe não encontrado"));
-        configuracao.setChefe(chefe);
-        return configuracaoServico.criarConfiguracao(configuracao);
-    }*/
+        configuracao.getClass();
+        return (Configuracao) configuracaoServico.criarConfiguracao((ConfiguracaoChefe) configuracao);
+    }
 }
 
