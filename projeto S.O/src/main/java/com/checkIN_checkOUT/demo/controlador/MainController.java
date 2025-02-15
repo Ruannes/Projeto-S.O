@@ -2,11 +2,13 @@ package com.checkIN_checkOUT.demo.controlador;
 
 import com.checkIN_checkOUT.demo.servico.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.checkIN_checkOUT.demo.modelos.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -44,9 +46,6 @@ public class MainController {
         return funcionarioServico.criarFuncionario(funcionario);
     }
 
-    /**
-     * Realiza check-in de um funcionário
-     */
     @PostMapping("/checkin/{funcionarioId}")
     public RegistroCheckinCheckout realizarCheckin(@PathVariable Long funcionarioId) {
         Funcionario funcionario = funcionarioServico.buscarFuncionario(String.valueOf(funcionarioId))
@@ -54,9 +53,6 @@ public class MainController {
         return checkinCheckoutServico.realizarCheckin(funcionario);
     }
 
-    /**
-     * Realiza check-out de um funcionário
-     */
     @PostMapping("/checkout/{funcionarioId}")
     public RegistroCheckinCheckout realizarCheckout(@PathVariable Long funcionarioId) {
         Funcionario funcionario = funcionarioServico.buscarFuncionario(String.valueOf(funcionarioId))
@@ -64,34 +60,22 @@ public class MainController {
         return checkinCheckoutServico.realizarCheckout(funcionario);
     }
 
-    /**
-     * Lista todos os registros de check-in/check-out
-     */
     @GetMapping("/registros")
     public List<RegistroCheckinCheckout> listarRegistros() {
         return checkinCheckoutServico.buscarCheckinCheckout();
     }
 
-    /**
-     * Busca um registro específico pelo ID
-     */
     @GetMapping("/registro/{id}")
     public RegistroCheckinCheckout buscarRegistro(@PathVariable Long id) {
         return checkinCheckoutServico.buscarCheckinCheckout(id)
                 .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
     }
 
-    /**
-     * Exclui um registro pelo ID
-     */
     @DeleteMapping("/registro/{id}")
     public void excluirRegistro(@PathVariable Long id) {
         checkinCheckoutServico.excluirCheckinCheckout(id);
     }
 
-    /**
-     * Cria uma configuração de banco de horas vinculada a um chefe
-     */
     @PostMapping("/configuracao/{chefeId}")
     public <Configuracao> Configuracao criarConfiguracao(@PathVariable Long chefeId, @RequestBody Configuracao configuracao) {
         Chefe chefe = chefeServico.buscarChefe(String.valueOf(chefeId))
@@ -99,5 +83,40 @@ public class MainController {
         configuracao.getClass();
         return (Configuracao) configuracaoServico.criarConfiguracao((ConfiguracaoChefe) configuracao);
     }
-}
 
+    // Criar um Registrador associado a um Chefe
+    @PostMapping("/registrador/{chefeId}")
+    public ResponseEntity<?> criarRegistrador(@PathVariable String chefeId, @RequestBody Registrador registrador) {
+        Optional<Chefe> chefeOptional = chefeServico.buscarChefe(chefeId);
+        if (chefeOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Chefe não encontrado.");
+        }
+
+        // Associar o registrador ao chefe e salvar no banco
+        registrador.setChefe(chefeOptional.get());
+        Registrador novoRegistrador = registradorServico.criarRegistrador(registrador);
+
+        return ResponseEntity.ok(novoRegistrador);
+    }
+    //Chefe define a configuração
+    @PutMapping("/configuracao/{chefeId}/banco-horas")
+    public ResponseEntity<?> configurarBancoHoras(@PathVariable String chefeId, @RequestParam boolean permitir) {
+        Optional<Chefe> chefeOptional = chefeServico.buscarChefe(chefeId);
+        if (chefeOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("Chefe não encontrado.");
+        }
+
+        Chefe chefe = chefeOptional.get();
+        ConfiguracaoChefe configuracao = chefe.getConfiguracao();
+
+        if (configuracao == null) {
+            return ResponseEntity.badRequest().body("Configuração do chefe não encontrada.");
+        }
+
+        // Atualiza a configuração do banco de horas
+        configuracao.setPermitirBancoHoras(permitir);
+        configuracaoServico.criarConfiguracao(configuracao);
+
+        return ResponseEntity.ok("Configuração de banco de horas atualizada com sucesso.");
+    }
+}

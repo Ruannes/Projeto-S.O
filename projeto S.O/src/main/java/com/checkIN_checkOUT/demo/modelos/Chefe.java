@@ -72,4 +72,8 @@ public class Chefe {
     public void setSenha(int senha) {
         this.senha = senha;
     }
+
+    public ConfiguracaoChefe getConfiguracao() {
+        return null;
+    }
 }
