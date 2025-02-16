@@ -1,5 +1,6 @@
 package com.checkIN_checkOUT.demo.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class ConfiguracaoChefe {
     private boolean permitirBancoHoras; //  Nova configuração
 
     @OneToOne(mappedBy = "configuracao")
+    @JsonIgnore //Impede serialização do chefe dentro da configuração
     private Chefe chefe;
 
     public Long getId() { return id; }

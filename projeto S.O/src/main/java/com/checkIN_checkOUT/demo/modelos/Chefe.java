@@ -74,6 +74,11 @@ public class Chefe {
     }
 
     public ConfiguracaoChefe getConfiguracao() {
-        return null;
+        return configuracao;
     }
+
+    public void setConfiguracao(ConfiguracaoChefe configuracao) {
+        this.configuracao = configuracao;
+    }
+
 }

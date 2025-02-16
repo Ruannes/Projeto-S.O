@@ -102,6 +102,7 @@ public class MainController {
 
         return ResponseEntity.ok(novoRegistrador);
     }
+
     //Chefe define a configuração
     @PutMapping("/configuracao/{chefeId}/banco-horas")
     public ResponseEntity<?> configurarBancoHoras(@PathVariable String chefeId, @RequestParam boolean permitir) {
@@ -113,13 +114,18 @@ public class MainController {
         Chefe chefe = chefeOptional.get();
         ConfiguracaoChefe configuracao = chefe.getConfiguracao();
 
+        // Se não existir uma configuração, cria uma nova
         if (configuracao == null) {
-            return ResponseEntity.badRequest().body("Configuração do chefe não encontrada.");
+            configuracao = new ConfiguracaoChefe();
+            chefe.setConfiguracao(configuracao); // Associa ao chefe
         }
 
         // Atualiza a configuração do banco de horas
         configuracao.setPermitirBancoHoras(permitir);
+
+        // Salva a configuração e atualiza o chefe
         configuracaoServico.criarConfiguracao(configuracao);
+        chefeServico.salvarChefe(chefe); // Salvar para garantir a atualização no banco
 
         return ResponseEntity.ok("Configuração de banco de horas atualizada com sucesso.");
     }

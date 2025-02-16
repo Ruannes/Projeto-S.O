@@ -34,4 +34,7 @@ public class ChefeServico {
     public void excluirChefe(String id){
         chefeRepositorio.deleteById(id);
     }
+
+    public void salvarChefe(Chefe chefe) {
+    }
 }
