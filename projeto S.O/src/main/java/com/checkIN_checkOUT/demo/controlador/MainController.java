@@ -36,7 +36,11 @@ public class MainController {
 
     @GetMapping("/chefe")
     public List<Chefe> buscarChefe() {
-        return chefeServico.buscarChefe();
+        List<Chefe> chefes = chefeServico.buscarChefe();
+        for(Chefe chefe : chefes) {
+            chefe.setFuncionarios(funcionarioServico.buscarFuncionariosPorChefe(chefe.getId()));
+        }
+        return chefes;
     }
 
     @PostMapping("/contratar/{chefeId}")

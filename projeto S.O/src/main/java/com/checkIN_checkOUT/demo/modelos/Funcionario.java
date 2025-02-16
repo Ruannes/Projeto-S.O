@@ -1,5 +1,6 @@
 package com.checkIN_checkOUT.demo.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,8 @@ public class Funcionario {
     private String email;
     private int senha;
     @ManyToOne
+    @JoinColumn(name = "chefe_id")
+    @JsonIgnore
     private Chefe chefe;
 
     public Chefe getChefe() {return chefe;}

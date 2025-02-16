@@ -27,6 +27,9 @@ public class FuncionarioServico {
         return funcionarioRepositorio.findById(id);
     }
 
+    public List<Funcionario> buscarFuncionariosPorChefe(String chefeId) {
+        return funcionarioRepositorio.findFuncionarioByChefeId(chefeId);
+    }
     public void atualizarFuncionario(Funcionario funcionario){
         funcionarioRepositorio.save(funcionario);
     }
